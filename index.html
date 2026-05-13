@@ -403,44 +403,84 @@
       background: var(--pink);
       color: #fff;
     }
-    .gallery-grid {
+    /* ─── Gallery Clusters ─── */
+    .gallery-clusters { display: flex; flex-direction: column; gap: 20px; }
+    .gallery-cluster {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 8px;
     }
-    .gallery-item {
+    .cluster-header {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 2px;
+    }
+    .cluster-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gray);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .cluster-line {
+      flex: 1;
+      height: 1px;
+      background: #f0f0f0;
+    }
+    .cluster-main {
       position: relative;
       overflow: hidden;
-      border-radius: var(--radius);
-      aspect-ratio: 4/5;
+      border-radius: 14px;
+      aspect-ratio: 3/4;
       cursor: pointer;
       background: #f3f4f6;
     }
-    .gallery-item.tall { grid-row: span 2; aspect-ratio: auto; min-height: 520px; }
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
+    .cluster-main img {
+      width: 100%; height: 100%;
       object-fit: cover;
       transition: transform 0.5s ease;
       display: block;
     }
-    .gallery-item:hover img { transform: scale(1.06); }
-    .gallery-item .overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(26,26,46,0.75) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.3s;
-      display: flex;
-      align-items: flex-end;
-      padding: 20px;
+    .cluster-main:hover img { transform: scale(1.05); }
+    .cluster-main .overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,26,46,0.78) 0%, transparent 55%);
+      opacity: 0; transition: opacity 0.3s;
+      display: flex; align-items: flex-end; padding: 16px;
     }
-    .gallery-item:hover .overlay { opacity: 1; }
-    .gallery-item .overlay span {
-      color: #fff;
-      font-size: 15px;
-      font-weight: 700;
+    .cluster-main:hover .overlay { opacity: 1; }
+    .cluster-main .overlay span { color: #fff; font-size: 14px; font-weight: 700; }
+    .cluster-thumbs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      align-content: start;
     }
+    .cluster-thumb {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      aspect-ratio: 1;
+      cursor: pointer;
+      background: #f3f4f6;
+    }
+    .cluster-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+      display: block;
+    }
+    .cluster-thumb:hover img { transform: scale(1.08); }
+    .cluster-thumb .overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,26,46,0.72) 0%, transparent 50%);
+      opacity: 0; transition: opacity 0.3s;
+      display: flex; align-items: flex-end; padding: 8px;
+    }
+    .cluster-thumb:hover .overlay { opacity: 1; }
+    .cluster-thumb .overlay span { color: #fff; font-size: 11px; font-weight: 700; line-height: 1.3; }
 
     /* ─── Mid CTA ─── */
     .mid-cta {
@@ -982,8 +1022,7 @@
         z-index: 999;
       }
       .nav-links.open a { font-size: 22px; }
-      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-      .gallery-item.tall { grid-row: span 1; min-height: auto; }
+      .gallery-cluster { grid-template-columns: 1.2fr 1fr; }
       .pricing-grid { grid-template-columns: 1fr; }
       .pricing-card.featured { transform: scale(1); }
       .reviews-grid { grid-template-columns: 1fr; }
@@ -992,7 +1031,8 @@
       .trust-divider { display: none; }
     }
     @media (max-width: 580px) {
-      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-cluster { grid-template-columns: 1fr 1fr; }
+      .cluster-main { aspect-ratio: 4/3; }
       .hero-ctas { flex-direction: column; }
       .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
     }
@@ -1165,113 +1205,102 @@
       <button class="filter-btn" onclick="filterGallery('special', this)">✨ מיוחדים</button>
     </div>
 
-    <div class="gallery-grid" id="galleryGrid">
-      <div class="gallery-item tall reveal" data-cat="event">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38.jpeg" alt="קשת בלונים לחינה - לבן כסף וזהב" loading="lazy" />
-        <div class="overlay"><span>חינה — לבן, כסף וזהב ✨</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="barmitzvah">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38%20(1).jpeg" alt="קשת בלונים בר מצווה 13" loading="lazy" />
-        <div class="overlay"><span>בר מצווה — שחור, לבן וזהב 🥂</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="business">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38%20(2).jpeg" alt="קשת בלונים בקניון" loading="lazy" />
-        <div class="overlay"><span>פתיחה בקניון — פסטל 🛍️</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="barmitzvah">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38%20(3).jpeg" alt="קשת בלונים בת מצווה 12" loading="lazy" />
-        <div class="overlay"><span>בת מצווה 12 — ורוד וכחול 🎀</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="business">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39.jpeg" alt="קשת בלונים לפתיחת חנות 54 OUTLET" loading="lazy" />
-        <div class="overlay"><span>פתיחת חנות — אדום ולבן 🏪</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="birthday">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(1).jpeg" alt="קשת בלונים ורוד סגול בחוץ" loading="lazy" />
-        <div class="overlay"><span>אירוע בחצר — ורוד ולבנדר 🌸</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="business">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(2).jpeg" alt="קשת בלונים מקדונלדס" loading="lazy" />
-        <div class="overlay"><span>פתיחת סניף — בצבעי המותג 🍔</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="business">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(3).jpeg" alt="קשת בלונים בוטיק ורוד וזהב" loading="lazy" />
-        <div class="overlay"><span>בוטיק — ורוד, פוקסיה וזהב 💅</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="business">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(4).jpeg" alt="קשת בלונים ROYALTY זהב וכסף" loading="lazy" />
-        <div class="overlay"><span>Royalty — זהב וכסף 👑</span></div>
+    <div class="gallery-clusters" id="galleryClusters">
+
+      <!-- ── עסקים ── -->
+      <div class="gallery-cluster reveal" data-cat="business">
+        <div class="cluster-header"><span class="cluster-label">🏪 עסקים</span><div class="cluster-line"></div></div>
+        <div class="cluster-main">
+          <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38%20(2).jpeg" alt="פתיחה בקניון" loading="lazy" />
+          <div class="overlay"><span>פתיחה בקניון — פסטל 🛍️</span></div>
+        </div>
+        <div class="cluster-thumbs">
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39.jpeg" alt="54 OUTLET" loading="lazy" /><div class="overlay"><span>OUTLET — אדום ולבן</span></div></div>
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(2).jpeg" alt="מקדונלדס" loading="lazy" /><div class="overlay"><span>פתיחת סניף 🍔</span></div></div>
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(3).jpeg" alt="בוטיק ורוד זהב" loading="lazy" /><div class="overlay"><span>בוטיק — ורוד וזהב 💅</span></div></div>
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(4).jpeg" alt="ROYALTY" loading="lazy" /><div class="overlay"><span>Royalty — זהב וכסף 👑</span></div></div>
+        </div>
       </div>
 
-      <!-- 17 new images -->
-      <div class="gallery-item reveal" data-cat="business">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.10.jpeg" alt="Arthur Murray — כחול זהב לבן" loading="lazy" />
-        <div class="overlay"><span>Arthur Murray — כחול, זהב ולבן 🎓</span></div>
+      <div class="gallery-cluster reveal" data-cat="business">
+        <div class="cluster-header"><div class="cluster-line"></div></div>
+        <div class="cluster-main">
+          <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.10.jpeg" alt="Arthur Murray" loading="lazy" />
+          <div class="overlay"><span>Arthur Murray — כחול וזהב 🎓</span></div>
+        </div>
+        <div class="cluster-thumbs">
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.44.10%20(1).jpeg" alt="Mody Kitchens" loading="lazy" /><div class="overlay"><span>Mody Kitchens 🍳</span></div></div>
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.44.11.jpeg" alt="מסעדה איטלקית" loading="lazy" /><div class="overlay"><span>מסעדה — אדום ולבן 🍕</span></div></div>
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.44.11%20(2).jpeg" alt="אולם כחול ולבן" loading="lazy" /><div class="overlay"><span>אולם — כחול ולבן 💙</span></div></div>
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.44.12%20(1).jpeg" alt="Sweetime" loading="lazy" /><div class="overlay"><span>Sweetime — ורוד 🍦</span></div></div>
+        </div>
       </div>
-      <div class="gallery-item reveal" data-cat="business">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.10%20(1).jpeg" alt="Mody Kitchens — אדום ושחור" loading="lazy" />
-        <div class="overlay"><span>Mody Kitchens — אדום ושחור 🍳</span></div>
+
+      <div class="gallery-cluster reveal" data-cat="business">
+        <div class="cluster-header"><div class="cluster-line"></div></div>
+        <div class="cluster-main">
+          <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.13%20(2).jpeg" alt="Golden Touch" loading="lazy" />
+          <div class="overlay"><span>Golden Touch — ורוד וזהב 💛</span></div>
+        </div>
+        <div class="cluster-thumbs">
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.44.15%20(1).jpeg" alt="Laser City" loading="lazy" /><div class="overlay"><span>Laser City 🎮</span></div></div>
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.44.16.jpeg" alt="חנות יין שחור" loading="lazy" /><div class="overlay"><span>חנות — יין ושחור 🍷</span></div></div>
+        </div>
       </div>
-      <div class="gallery-item tall reveal" data-cat="special">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.10%20(2).jpeg" alt="קשת להבות שחור עם בלוני אש" loading="lazy" />
-        <div class="overlay"><span>קשת להבות — שחור ואש 🔥</span></div>
+
+      <!-- ── אירועים ── -->
+      <div class="gallery-cluster reveal" data-cat="event">
+        <div class="cluster-header"><span class="cluster-label">🎭 אירועים</span><div class="cluster-line"></div></div>
+        <div class="cluster-main">
+          <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38.jpeg" alt="חינה לבן כסף זהב" loading="lazy" />
+          <div class="overlay"><span>חינה — לבן, כסף וזהב ✨</span></div>
+        </div>
+        <div class="cluster-thumbs">
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.44.11%20(1).jpeg" alt="אמפיתאטרון" loading="lazy" /><div class="overlay"><span>אמפיתאטרון 🎭</span></div></div>
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.44.14.jpeg" alt="בית ספר רוז גולד" loading="lazy" /><div class="overlay"><span>בית ספר — רוז גולד ❤️</span></div></div>
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.44.14%20(1).jpeg" alt="אירוע עירוני" loading="lazy" /><div class="overlay"><span>אירוע עירוני 🌃</span></div></div>
+        </div>
       </div>
-      <div class="gallery-item reveal" data-cat="business">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.11.jpeg" alt="מסעדה איטלקית אדום ולבן" loading="lazy" />
-        <div class="overlay"><span>מסעדה איטלקית — אדום ולבן 🍕</span></div>
+
+      <!-- ── בר/בת מצווה ── -->
+      <div class="gallery-cluster reveal" data-cat="barmitzvah">
+        <div class="cluster-header"><span class="cluster-label">✡️ בר / בת מצווה</span><div class="cluster-line"></div></div>
+        <div class="cluster-main">
+          <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38%20(1).jpeg" alt="בר מצווה שחור לבן זהב" loading="lazy" />
+          <div class="overlay"><span>בר מצווה — שחור, לבן וזהב 🥂</span></div>
+        </div>
+        <div class="cluster-thumbs">
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38%20(3).jpeg" alt="בת מצווה 12" loading="lazy" /><div class="overlay"><span>בת מצווה 12 🎀</span></div></div>
+        </div>
       </div>
-      <div class="gallery-item reveal" data-cat="event">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.11%20(1).jpeg" alt="אמפיתאטרון וואהל סגול כתום לבן" loading="lazy" />
-        <div class="overlay"><span>אמפיתאטרון — סגול, כתום ולבן 🎭</span></div>
+
+      <!-- ── ימי הולדת ── -->
+      <div class="gallery-cluster reveal" data-cat="birthday">
+        <div class="cluster-header"><span class="cluster-label">🎂 ימי הולדת</span><div class="cluster-line"></div></div>
+        <div class="cluster-main">
+          <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(1).jpeg" alt="ורוד לבנדר בחצר" loading="lazy" />
+          <div class="overlay"><span>אירוע בחצר — ורוד ולבנדר 🌸</span></div>
+        </div>
+        <div class="cluster-thumbs">
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.44.14%20(2).jpeg" alt="ורוד לבן כסף" loading="lazy" /><div class="overlay"><span>ורוד, לבן וכסף 🎂</span></div></div>
+        </div>
       </div>
-      <div class="gallery-item reveal" data-cat="business">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.11%20(2).jpeg" alt="אולם כחול ולבן" loading="lazy" />
-        <div class="overlay"><span>אולם אירועים — כחול ולבן 💙</span></div>
+
+      <!-- ── מיוחדים ── -->
+      <div class="gallery-cluster reveal" data-cat="special">
+        <div class="cluster-header"><span class="cluster-label">✨ מיוחדים</span><div class="cluster-line"></div></div>
+        <div class="cluster-main">
+          <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.10%20(2).jpeg" alt="קשת להבות" loading="lazy" />
+          <div class="overlay"><span>קשת להבות — שחור ואש 🔥</span></div>
+        </div>
+        <div class="cluster-thumbs">
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.44.12.jpeg" alt="קשת בענן צבעוני" loading="lazy" /><div class="overlay"><span>קשת בענן 🌈</span></div></div>
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.44.13.jpeg" alt="קשת אורגנית" loading="lazy" /><div class="overlay"><span>קשת אורגנית ✨</span></div></div>
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.44.13%20(1).jpeg" alt="פורים קרנבל" loading="lazy" /><div class="overlay"><span>פורים / קרנבל 🎭</span></div></div>
+          <div class="cluster-thumb"><img src="WhatsApp%20Image%202026-05-13%20at%2022.44.15.jpeg" alt="מנהרת בלונים" loading="lazy" /><div class="overlay"><span>מנהרת בלונים 🎪</span></div></div>
+        </div>
       </div>
-      <div class="gallery-item tall reveal" data-cat="special">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.12.jpeg" alt="קשת בענן עמודים צבעוני" loading="lazy" />
-        <div class="overlay"><span>קשת קשת בענן — צבעוני מלא 🌈</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="business">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.12%20(1).jpeg" alt="קניון Sweetime ורוד ולבן" loading="lazy" />
-        <div class="overlay"><span>Sweetime — ורוד ולבן 🍦</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="special">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.13.jpeg" alt="קשת אורגנית רב צבעונית" loading="lazy" />
-        <div class="overlay"><span>קשת אורגנית — צבעי קשת ✨</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="special">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.13%20(1).jpeg" alt="פורים קרנבל עם מסכות" loading="lazy" />
-        <div class="overlay"><span>פורים / קרנבל — עם מסכות 🎭</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="business">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.13%20(2).jpeg" alt="Golden Touch ורוד זהב לבן" loading="lazy" />
-        <div class="overlay"><span>Golden Touch — ורוד, זהב ולבן 💛</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="event">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.14.jpeg" alt="קשת רוז גולד שטיח אדום בית ספר" loading="lazy" />
-        <div class="overlay"><span>אירוע בית ספר — רוז גולד ❤️</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="event">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.14%20(1).jpeg" alt="קשת כחול לבן לילה אירוע עירוני" loading="lazy" />
-        <div class="overlay"><span>אירוע עירוני — כחול ולבן לילה 🌃</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="birthday">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.14%20(2).jpeg" alt="קשת ורוד לבן כסף בחצר" loading="lazy" />
-        <div class="overlay"><span>יום הולדת בחצר — ורוד, לבן וכסף 🎂</span></div>
-      </div>
-      <div class="gallery-item tall reveal" data-cat="special">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.15.jpeg" alt="מנהרת בלונים ענקית" loading="lazy" />
-        <div class="overlay"><span>מנהרת בלונים ענקית 🎪</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="business">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.15%20(1).jpeg" alt="Laser City טורקיז וסגול" loading="lazy" />
-        <div class="overlay"><span>Laser City — טורקיז וסגול 🎮</span></div>
-      </div>
-      <div class="gallery-item reveal" data-cat="business">
-        <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.16.jpeg" alt="חנות יין שחור כרום" loading="lazy" />
-        <div class="overlay"><span>חנות — יין ושחור כרום 🍷</span></div>
-      </div>
+
     </div>
   </div>
 </section>
@@ -1616,9 +1645,9 @@
   function filterGallery(cat, btn) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    document.querySelectorAll('.gallery-item').forEach(item => {
-      const match = cat === 'all' || item.dataset.cat === cat;
-      item.style.display = match ? '' : 'none';
+    document.querySelectorAll('.gallery-cluster').forEach(cluster => {
+      const match = cat === 'all' || cluster.dataset.cat === cat;
+      cluster.style.display = match ? '' : 'none';
     });
   }
 
