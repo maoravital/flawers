@@ -103,10 +103,32 @@
     }
     .btn-secondary:hover { background: rgba(255,255,255,0.25); }
 
+    /* ─── Topbar ─── */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1001;
+      background: linear-gradient(90deg, var(--pink) 0%, #8B1D6A 100%);
+      color: #fff;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 9px 16px;
+      letter-spacing: 0.2px;
+    }
+    .topbar span {
+      background: rgba(255,255,255,0.18);
+      border-radius: 50px;
+      padding: 2px 12px;
+      margin-left: 8px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
     /* ─── Navbar ─── */
     nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 38px; left: 0; right: 0;
       z-index: 1000;
       background: rgba(255,255,255,0.97);
       backdrop-filter: blur(12px);
@@ -978,6 +1000,11 @@
 </head>
 <body>
 
+<!-- ════════════════════ TOPBAR ════════════════════ -->
+<div class="topbar">
+  🚚 משלוח והתקנה חינם לתושבי הרצליה<span>* ללא תוספת עלות</span>
+</div>
+
 <!-- Cursor glow + floating background orbs -->
 <div id="cursor-glow"></div>
 <div class="bg-orbs" aria-hidden="true">
@@ -1074,6 +1101,14 @@
         <div>
           <strong>כל צבע</strong>
           <span>עיצוב לפי הבקשה</span>
+        </div>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-item">
+        <span class="icon">🏠</span>
+        <div>
+          <strong>חינם</strong>
+          <span>משלוח לתושבי הרצליה*</span>
         </div>
       </div>
     </div>
@@ -1327,7 +1362,8 @@
 
     </div>
     <p style="text-align:center;margin-top:28px;font-size:14px;color:var(--gray);">
-      * כל המחירים לא כוללים מע"מ. מחיר סופי לפי גודל, מיקום וסגנון. הצעת מחיר מדויקת — תוך שעה.
+      * כל המחירים לא כוללים מע"מ. מחיר סופי לפי גודל, מיקום וסגנון. הצעת מחיר מדויקת — תוך שעה.<br/>
+      * משלוח והתקנה חינם לתושבי הרצליה בלבד. לאזורים אחרים — תוספת נסיעה לפי מרחק.
     </p>
   </div>
 </section>
