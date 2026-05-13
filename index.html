@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flawers – קשתות בלונים לכל אירוע</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Heebo', sans-serif;
+      background: #fff;
+      color: #1a1a2e;
+      overflow-x: hidden;
+      direction: rtl;
+    }
+
+    /* ─── CSS Variables ─── */
+    :root {
+      --pink:    #E8387A;
+      --pink-light: #FFD6E8;
+      --gold:    #C9A227;
+      --gold-light: #FFF0C0;
+      --dark:    #1a1a2e;
+      --gray:    #6b7280;
+      --light:   #FFF5F9;
+      --white:   #ffffff;
+      --radius:  16px;
+      --shadow:  0 8px 40px rgba(232,56,122,0.13);
+    }
+
+    /* ─── Utility ─── */
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 900;
+      color: var(--dark);
+      text-align: center;
+      line-height: 1.2;
+    }
+    .section-sub {
+      font-size: 17px;
+      color: var(--gray);
+      text-align: center;
+      margin-top: 12px;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--pink) 0%, #B5206B 100%);
+      color: #fff;
+      font-family: 'Heebo', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      padding: 16px 36px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 8px 30px rgba(232,56,122,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 40px rgba(232,56,122,0.45);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      font-family: 'Heebo', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 50px;
+      border: 2px solid rgba(255,255,255,0.6);
+      cursor: pointer;
+      text-decoration: none;
+      backdrop-filter: blur(4px);
+      transition: background 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.25); }
+
+    /* ─── Navbar ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(232,56,122,0.1);
+      padding: 14px 0;
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--dark);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--pink); }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--dark);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--pink); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--pink), #B5206B);
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-weight: 700 !important;
+      box-shadow: 0 4px 16px rgba(232,56,122,0.3);
+      transition: transform 0.2s, box-shadow 0.2s !important;
+    }
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(232,56,122,0.4) !important;
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 26px; height: 2.5px;
+      background: var(--dark);
+      border-radius: 4px;
+      transition: all 0.3s;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('WhatsApp%20Image%202026-05-13%20at%2022.01.38.jpeg');
+      background-size: cover;
+      background-position: center 30%;
+      filter: brightness(0.45);
+      transform: scale(1.04);
+      animation: slowZoom 12s ease-in-out infinite alternate;
+    }
+    @keyframes slowZoom {
+      from { transform: scale(1.04); }
+      to   { transform: scale(1.10); }
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg,
+        rgba(26,26,46,0.75) 0%,
+        rgba(180,32,107,0.45) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 120px 0 80px;
+      max-width: 700px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 50px;
+      margin-bottom: 24px;
+    }
+    .hero-badge .dot {
+      width: 8px; height: 8px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.6; transform: scale(1.3); }
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(90deg, var(--pink-light), #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 19px;
+      color: rgba(255,255,255,0.88);
+      line-height: 1.65;
+      margin-bottom: 36px;
+      font-weight: 400;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      color: rgba(255,255,255,0.6);
+      font-size: 13px;
+      text-align: center;
+      animation: bounceDown 2s infinite;
+    }
+    .hero-scroll .arrow {
+      display: block;
+      margin: 6px auto 0;
+      width: 22px; height: 22px;
+      border-left: 2px solid rgba(255,255,255,0.5);
+      border-bottom: 2px solid rgba(255,255,255,0.5);
+      transform: rotate(-45deg);
+    }
+    @keyframes bounceDown {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ─── Trust Bar ─── */
+    .trust-bar {
+      background: linear-gradient(135deg, var(--dark) 0%, #2d1b4e 100%);
+      padding: 28px 0;
+    }
+    .trust-inner {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #fff;
+    }
+    .trust-item .icon {
+      font-size: 28px;
+    }
+    .trust-item strong {
+      display: block;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--gold);
+    }
+    .trust-item span {
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      font-weight: 500;
+    }
+    .trust-divider {
+      width: 1px;
+      height: 44px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    /* ─── Services / For Whom ─── */
+    .services {
+      padding: 96px 0;
+      background: var(--light);
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-top: 56px;
+    }
+    .service-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: default;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow);
+    }
+    .service-card .emoji {
+      font-size: 44px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .service-card h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+    .service-card p {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    /* ─── Gallery ─── */
+    .gallery {
+      padding: 96px 0;
+      background: #fff;
+    }
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 40px 0 48px;
+    }
+    .filter-btn {
+      background: #f3f4f6;
+      color: var(--dark);
+      font-family: 'Heebo', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--pink);
+      color: #fff;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      aspect-ratio: 4/5;
+      cursor: pointer;
+      background: #f3f4f6;
+    }
+    .gallery-item.tall { grid-row: span 2; aspect-ratio: auto; min-height: 520px; }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+    .gallery-item:hover img { transform: scale(1.06); }
+    .gallery-item .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,26,46,0.75) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+    .gallery-item:hover .overlay { opacity: 1; }
+    .gallery-item .overlay span {
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    /* ─── Mid CTA ─── */
+    .mid-cta {
+      padding: 80px 0;
+      background: linear-gradient(135deg, var(--pink) 0%, #8B1D6A 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .mid-cta::before {
+      content: '🎈';
+      position: absolute;
+      font-size: 200px;
+      opacity: 0.06;
+      top: -40px; left: -30px;
+    }
+    .mid-cta::after {
+      content: '🎉';
+      position: absolute;
+      font-size: 160px;
+      opacity: 0.06;
+      bottom: -30px; right: -10px;
+    }
+    .mid-cta h2 {
+      font-size: clamp(26px, 4vw, 42px);
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+    .mid-cta p {
+      color: rgba(255,255,255,0.85);
+      font-size: 17px;
+      margin-bottom: 32px;
+    }
+
+    /* ─── Process ─── */
+    .process {
+      padding: 96px 0;
+      background: var(--light);
+    }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 56px;
+      position: relative;
+    }
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 36px;
+      right: 16%;
+      left: 16%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--pink) 0%, var(--gold) 100%);
+      z-index: 0;
+    }
+    .process-step {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .step-num {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, var(--pink), #B5206B);
+      color: #fff;
+      font-size: 28px;
+      font-weight: 900;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 6px 24px rgba(232,56,122,0.3);
+    }
+    .process-step h3 {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+    .process-step p {
+      font-size: 15px;
+      color: var(--gray);
+      line-height: 1.65;
+    }
+
+    /* ─── Pricing ─── */
+    .pricing {
+      padding: 96px 0;
+      background: #fff;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 56px;
+      align-items: start;
+    }
+    .pricing-card {
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      border: 2px solid #f0f0f0;
+      text-align: center;
+      position: relative;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    }
+    .pricing-card.featured {
+      background: linear-gradient(160deg, var(--dark) 0%, #2d1b4e 100%);
+      border-color: var(--pink);
+      color: #fff;
+      transform: scale(1.04);
+      box-shadow: 0 16px 60px rgba(232,56,122,0.25);
+    }
+    .pricing-card.featured:hover {
+      transform: scale(1.04) translateY(-4px);
+    }
+    .badge-popular {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--pink);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 18px;
+      border-radius: 50px;
+      white-space: nowrap;
+    }
+    .pricing-card h3 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .pricing-card .featured h3 { color: #fff; }
+    .pricing-price {
+      font-size: 44px;
+      font-weight: 900;
+      color: var(--pink);
+      margin: 16px 0 4px;
+    }
+    .pricing-card.featured .pricing-price { color: var(--gold); }
+    .pricing-price sup { font-size: 20px; font-weight: 700; }
+    .pricing-price sub { font-size: 16px; color: var(--gray); }
+    .pricing-card.featured .pricing-price sub { color: rgba(255,255,255,0.5); }
+    .pricing-desc {
+      font-size: 14px;
+      color: var(--gray);
+      margin-bottom: 24px;
+    }
+    .pricing-card.featured .pricing-desc { color: rgba(255,255,255,0.6); }
+    .pricing-features {
+      list-style: none;
+      text-align: right;
+      margin-bottom: 32px;
+    }
+    .pricing-features li {
+      font-size: 15px;
+      color: var(--dark);
+      padding: 9px 0;
+      border-bottom: 1px solid #f3f4f6;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pricing-card.featured .pricing-features li {
+      color: rgba(255,255,255,0.88);
+      border-bottom-color: rgba(255,255,255,0.1);
+    }
+    .pricing-features .check { color: #22c55e; font-size: 16px; flex-shrink: 0; }
+    .btn-pricing {
+      width: 100%;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      font-family: 'Heebo', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 14px;
+      border-radius: 50px;
+      transition: all 0.2s;
+    }
+    .btn-pricing.outline {
+      border: 2px solid var(--pink);
+      color: var(--pink);
+      background: transparent;
+    }
+    .btn-pricing.outline:hover {
+      background: var(--pink);
+      color: #fff;
+    }
+    .btn-pricing.filled {
+      background: var(--gold);
+      color: var(--dark);
+      border: none;
+    }
+    .btn-pricing.filled:hover {
+      background: #b8901e;
+      color: #fff;
+    }
+
+    /* ─── Testimonials ─── */
+    .testimonials {
+      padding: 96px 0;
+      background: var(--light);
+    }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 56px;
+    }
+    .review-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      transition: transform 0.25s;
+    }
+    .review-card:hover { transform: translateY(-4px); }
+    .stars {
+      color: #fbbf24;
+      font-size: 20px;
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+    }
+    .review-text {
+      font-size: 15px;
+      color: var(--dark);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .reviewer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .reviewer-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .reviewer-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .reviewer-event {
+      font-size: 13px;
+      color: var(--gray);
+    }
+
+    /* ─── FAQ ─── */
+    .faq {
+      padding: 96px 0;
+      background: #fff;
+    }
+    .faq-list {
+      max-width: 760px;
+      margin: 56px auto 0;
+    }
+    .faq-item {
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .faq-q {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 0;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--dark);
+      cursor: pointer;
+      gap: 16px;
+    }
+    .faq-q .icon {
+      flex-shrink: 0;
+      width: 30px; height: 30px;
+      background: var(--light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--pink);
+      transition: transform 0.3s;
+    }
+    .faq-item.open .faq-q .icon { transform: rotate(45deg); }
+    .faq-a {
+      font-size: 15px;
+      color: var(--gray);
+      line-height: 1.75;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.3s;
+    }
+    .faq-item.open .faq-a {
+      max-height: 300px;
+      padding-bottom: 20px;
+    }
+
+    /* ─── Final CTA ─── */
+    .final-cta {
+      padding: 100px 0;
+      background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(232,56,122,0.18) 0%, transparent 70%);
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+    }
+    .final-cta h2 {
+      font-size: clamp(28px, 4.5vw, 52px);
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .final-cta p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 40px;
+      position: relative;
+    }
+    .final-cta .urgency {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 50px;
+      margin-bottom: 36px;
+    }
+    .cta-group {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      background: #0f0f1a;
+      color: rgba(255,255,255,0.5);
+      padding: 36px 0;
+      text-align: center;
+      font-size: 14px;
+    }
+    footer strong { color: rgba(255,255,255,0.8); }
+
+    /* ─── Floating WhatsApp ─── */
+    .wa-float {
+      position: fixed;
+      bottom: 28px;
+      left: 28px;
+      z-index: 9999;
+      width: 60px; height: 60px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 30px rgba(37,211,102,0.45);
+      transition: transform 0.25s;
+      text-decoration: none;
+      animation: waPop 0.6s 1.5s ease both;
+    }
+    .wa-float:hover { transform: scale(1.1); }
+    @keyframes waPop {
+      from { transform: scale(0) rotate(-20deg); opacity: 0; }
+      to   { transform: scale(1) rotate(0);    opacity: 1; }
+    }
+    .wa-float svg { width: 32px; height: 32px; }
+    .wa-tooltip {
+      position: absolute;
+      left: 74px;
+      background: #fff;
+      color: var(--dark);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 8px;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .wa-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 50%; right: 100%;
+      transform: translateY(-50%);
+      border: 6px solid transparent;
+      border-right-color: #fff;
+    }
+    .wa-float:hover .wa-tooltip { opacity: 1; }
+
+    /* ─── Scroll Reveal ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── Mobile ─── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        inset: 0;
+        background: #fff;
+        padding: 100px 32px 40px;
+        gap: 28px;
+        z-index: 999;
+      }
+      .nav-links.open a { font-size: 22px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-item.tall { grid-row: span 1; min-height: auto; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .pricing-card.featured { transform: scale(1); }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr; }
+      .process-steps::before { display: none; }
+      .trust-divider { display: none; }
+    }
+    @media (max-width: 580px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .hero-ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════ NAVBAR ════════════════════ -->
+<nav id="navbar">
+  <div class="container nav-inner">
+    <a class="logo" href="#"><span>Fl</span>awers</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#gallery">גלריה</a></li>
+      <li><a href="#process">איך זה עובד</a></li>
+      <li><a href="#pricing">מחירים</a></li>
+      <li><a href="#faq">שאלות</a></li>
+      <li><a href="https://wa.me/972508892684?text=היי%2C%20אני%20רוצה%20לשמוע%20פרטים%20על%20קשת%20בלונים!" class="nav-cta" target="_blank">📲 לפרטים</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="תפריט">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        מקבלים הזמנות לאירועים 2026
+      </div>
+      <h1>
+        הקשת שעושה את<br/>
+        <span class="highlight">האירוע בלתי נשכח</span>
+      </h1>
+      <p>
+        קשתות בלונים בעיצוב מקצועי לימי הולדת, בר ובת מצווה, פתיחות עסקים, חינה ועוד — מגיעים אליך, מתקינים, ונוסעים.
+      </p>
+      <div class="hero-ctas">
+        <a href="https://wa.me/972508892684?text=היי%2C%20אני%20רוצה%20להזמין%20קשת%20בלונים%20לאירוע%20שלי!" class="btn-primary" target="_blank">
+          💬 שלח/י הודעה ב-WhatsApp
+        </a>
+        <a href="#gallery" class="btn-secondary">
+          📸 ראה עבודות
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    גלול למטה
+    <span class="arrow"></span>
+  </div>
+</section>
+
+<!-- ════════════════════ TRUST BAR ════════════════════ -->
+<div class="trust-bar">
+  <div class="container">
+    <div class="trust-inner">
+      <div class="trust-item">
+        <span class="icon">🎈</span>
+        <div>
+          <strong>200+</strong>
+          <span>אירועים מוצלחים</span>
+        </div>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-item">
+        <span class="icon">⭐</span>
+        <div>
+          <strong>5.0</strong>
+          <span>דירוג ממוצע</span>
+        </div>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-item">
+        <span class="icon">🚀</span>
+        <div>
+          <strong>מגיעים אליך</strong>
+          <span>התקנה ופירוק כלולים</span>
+        </div>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-item">
+        <span class="icon">🎨</span>
+        <div>
+          <strong>כל צבע</strong>
+          <span>עיצוב לפי הבקשה</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ SERVICES ════════════════════ -->
+<section class="services" id="services">
+  <div class="container">
+    <h2 class="section-title reveal">לאיזה אירוע אתם צריכים קשת?</h2>
+    <p class="section-sub reveal">בנינו קשתות לכל סוג אירוע — מחגיגות קטנות עד פתיחות עסקים גדולות</p>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="emoji">🎂</span>
+        <h3>ימי הולדת</h3>
+        <p>קשתות צבעוניות שמתאימות לכל גיל — מיומולדת ראשון ועד 100</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="emoji">✡️</span>
+        <h3>בר ובת מצווה</h3>
+        <p>עיצוב אלגנטי ומרשים שמתאים לחגיגה הגדולה של החיים</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="emoji">🏪</span>
+        <h3>פתיחת עסק</h3>
+        <p>קשת כניסה שמושכת עיניים ומזמינה לקוחות — בצבעי המותג שלכם</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="emoji">💍</span>
+        <h3>חינה & אירועים</h3>
+        <p>עיצוב בלונים לחינה, ברית, אירוסין וכל אירוע משפחתי מיוחד</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="emoji">🎓</span>
+        <h3>סיום לימודים</h3>
+        <p>חגגו את ההישג עם קשת בלונים שתהיה זיכרון לכל החיים</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ GALLERY ════════════════════ -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <h2 class="section-title reveal">העבודות שלנו</h2>
+    <p class="section-sub reveal">כל קשת מעוצבת ידנית לפי הצבעים, הנושא והמיקום של האירוע שלכם</p>
+
+    <div class="filter-bar reveal">
+      <button class="filter-btn active" onclick="filterGallery('all', this)">הכל</button>
+      <button class="filter-btn" onclick="filterGallery('birthday', this)">ימי הולדת</button>
+      <button class="filter-btn" onclick="filterGallery('barmitzvah', this)">בר/בת מצווה</button>
+      <button class="filter-btn" onclick="filterGallery('business', this)">עסקים</button>
+      <button class="filter-btn" onclick="filterGallery('event', this)">אירועים</button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item tall reveal" data-cat="event">
+        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38.jpeg" alt="קשת בלונים לחינה - לבן כסף וזהב" loading="lazy" />
+        <div class="overlay"><span>חינה — לבן, כסף וזהב ✨</span></div>
+      </div>
+      <div class="gallery-item reveal" data-cat="barmitzvah">
+        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38%20(1).jpeg" alt="קשת בלונים בר מצווה 13" loading="lazy" />
+        <div class="overlay"><span>בר מצווה — שחור, לבן וזהב 🥂</span></div>
+      </div>
+      <div class="gallery-item reveal" data-cat="business">
+        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38%20(2).jpeg" alt="קשת בלונים בקניון" loading="lazy" />
+        <div class="overlay"><span>פתיחה בקניון — פסטל 🛍️</span></div>
+      </div>
+      <div class="gallery-item reveal" data-cat="barmitzvah">
+        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38%20(3).jpeg" alt="קשת בלונים בת מצווה 12" loading="lazy" />
+        <div class="overlay"><span>בת מצווה 12 — ורוד וכחול 🎀</span></div>
+      </div>
+      <div class="gallery-item reveal" data-cat="business">
+        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39.jpeg" alt="קשת בלונים לפתיחת חנות 54 OUTLET" loading="lazy" />
+        <div class="overlay"><span>פתיחת חנות — אדום ולבן 🏪</span></div>
+      </div>
+      <div class="gallery-item reveal" data-cat="birthday">
+        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(1).jpeg" alt="קשת בלונים ורוד סגול בחוץ" loading="lazy" />
+        <div class="overlay"><span>אירוע בחצר — ורוד ולבנדר 🌸</span></div>
+      </div>
+      <div class="gallery-item reveal" data-cat="business">
+        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(2).jpeg" alt="קשת בלונים מקדונלדס" loading="lazy" />
+        <div class="overlay"><span>פתיחת סניף — בצבעי המותג 🍔</span></div>
+      </div>
+      <div class="gallery-item reveal" data-cat="business">
+        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(3).jpeg" alt="קשת בלונים בוטיק ורוד וזהב" loading="lazy" />
+        <div class="overlay"><span>בוטיק — ורוד, פוקסיה וזהב 💅</span></div>
+      </div>
+      <div class="gallery-item reveal" data-cat="business">
+        <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(4).jpeg" alt="קשת בלונים ROYALTY זהב וכסף" loading="lazy" />
+        <div class="overlay"><span>Royalty — זהב וכסף 👑</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ MID CTA ════════════════════ -->
+<section class="mid-cta">
+  <div class="container" style="position:relative;z-index:1;">
+    <h2 class="reveal">אהבתם מה שראיתם?</h2>
+    <p class="reveal">שלחו לנו תאריך + צבעים שאוהבים — תוך שעה שולחים הצעת מחיר</p>
+    <a href="https://wa.me/972508892684?text=היי%2C%20ראיתי%20את%20הגלריה%20ואני%20רוצה%20לשמוע%20פרטים!" class="btn-primary reveal" target="_blank">
+      💬 שלח/י הודעה עכשיו → מענה תוך שעה
+    </a>
+  </div>
+</section>
+
+<!-- ════════════════════ PROCESS ════════════════════ -->
+<section class="process" id="process">
+  <div class="container">
+    <h2 class="section-title reveal">איך זה עובד?</h2>
+    <p class="section-sub reveal">3 צעדים פשוטים מהרגע שפנית עד שהקשת עומדת באירוע</p>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="step-num">1</div>
+        <h3>תארו לנו מה אתם רוצים</h3>
+        <p>שלחו לנו WhatsApp עם תאריך, מיקום, גודל ואיזה צבעים מדברים אליכם — ואנחנו נעשה את השאר.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">2</div>
+        <h3>קבלו הצעת מחיר מותאמת</h3>
+        <p>תוך שעה שולחים לכם הצעת מחיר מפורטת. בלי הפתעות, בלי תוספות נסתרות.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">3</div>
+        <h3>אנחנו מגיעים — אתם נהנים</h3>
+        <p>מגיעים, מתקינים, ובסוף האירוע — גם מפרקים. אתם לא צריכים לעשות כלום.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ PRICING ════════════════════ -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <h2 class="section-title reveal">מחירים שקופים</h2>
+    <p class="section-sub reveal">בלי הפתעות. כל מחיר כולל הגעה, התקנה ופירוק</p>
+    <div class="pricing-grid">
+
+      <div class="pricing-card reveal">
+        <h3>קשת סטנדרטית</h3>
+        <div class="pricing-price"><sup>₪</sup>350<sub>+</sub></div>
+        <p class="pricing-desc">מושלם לאירוע ביתי או ב-hall קטן</p>
+        <ul class="pricing-features">
+          <li><span class="check">✓</span> קשת רגילה עד 3 מטר</li>
+          <li><span class="check">✓</span> עד 3 צבעים</li>
+          <li><span class="check">✓</span> התקנה כלולה</li>
+          <li><span class="check">✓</span> פירוק כלול</li>
+        </ul>
+        <a href="https://wa.me/972508892684?text=אני%20מעוניין/ת%20בחבילה%20הסטנדרטית" class="btn-pricing outline" target="_blank">אני רוצה זאת</a>
+      </div>
+
+      <div class="pricing-card featured reveal">
+        <span class="badge-popular">🔥 הכי פופולרי</span>
+        <h3 style="color:#fff;">קשת פרימיום</h3>
+        <div class="pricing-price"><sup>₪</sup>600<sub>+</sub></div>
+        <p class="pricing-desc" style="color:rgba(255,255,255,0.6);">לאירועים שרוצים wow factor אמיתי</p>
+        <ul class="pricing-features">
+          <li><span class="check">✓</span> קשת גדולה עד 5 מטר</li>
+          <li><span class="check">✓</span> עד 5 צבעים + כרום</li>
+          <li><span class="check">✓</span> בלוני מספרים/אותיות</li>
+          <li><span class="check">✓</span> התקנה + פירוק</li>
+          <li><span class="check">✓</span> עיצוב מותאם אישית</li>
+        </ul>
+        <a href="https://wa.me/972508892684?text=אני%20מעוניין/ת%20בחבילת%20הפרימיום" class="btn-pricing filled" target="_blank">בואו נתחיל 🚀</a>
+      </div>
+
+      <div class="pricing-card reveal">
+        <h3>פתיחת עסק</h3>
+        <div class="pricing-price"><sup>₪</sup>800<sub>+</sub></div>
+        <p class="pricing-desc">מותאם לעסקים שרוצים לפתוח בגדול</p>
+        <ul class="pricing-features">
+          <li><span class="check">✓</span> קשת כניסה לרוחב מלא</li>
+          <li><span class="check">✓</span> עיצוב בצבעי המותג</li>
+          <li><span class="check">✓</span> ניתן לצרף עמודי בלונים</li>
+          <li><span class="check">✓</span> זמינות מיידית בבוקר</li>
+        </ul>
+        <a href="https://wa.me/972508892684?text=אני%20מעוניין/ת%20בחבילת%20פתיחת%20עסק" class="btn-pricing outline" target="_blank">לפרטים נוספים</a>
+      </div>
+
+    </div>
+    <p style="text-align:center;margin-top:28px;font-size:14px;color:var(--gray);">
+      * כל המחירים לא כוללים מע"מ. מחיר סופי לפי גודל, מיקום וסגנון. הצעת מחיר מדויקת — תוך שעה.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════ TESTIMONIALS ════════════════════ -->
+<section class="testimonials" id="reviews">
+  <div class="container">
+    <h2 class="section-title reveal">מה אומרים עלינו</h2>
+    <p class="section-sub reveal">מאות אירועים מרוצים — הנה כמה מהם</p>
+    <div class="reviews-grid">
+
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">
+          "הזמנתי קשת לבת מצווה של הבת שלי ולא האמנתי כמה יצא יפה. הגיעו בזמן, הכל היה מסודר וההורים כל הזמן שאלו מי עשה את זה. מומלץ בחום!"
+        </p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">מ</div>
+          <div>
+            <div class="reviewer-name">מיכל כהן</div>
+            <div class="reviewer-event">בת מצווה לאיה 🎀</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">
+          "השתמשנו בהם לפתיחת הסניף החדש שלנו. הקשת הייתה מדהימה — בדיוק בצבעי המותג. מלא אנשים עצרו להצטלם ומלא פוסטים עלו ברשת! שווה כל שקל."
+        </p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">ד</div>
+          <div>
+            <div class="reviewer-name">דניאל לוי</div>
+            <div class="reviewer-event">פתיחת עסק חדש 🏪</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">
+          "עשינו קשת לחינה של אחותי. הצבעים, הפרטים, הכל היה על הדקה. הגיעו שעה לפני האירוע, הכינו הכל בשקט ולא הפריעו לאף אחד. כל הכבוד!"
+        </p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">ס</div>
+          <div>
+            <div class="reviewer-name">סמר אבו ג'בר</div>
+            <div class="reviewer-event">חינה — לבן וזהב ✨</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ FAQ ════════════════════ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <h2 class="section-title reveal">שאלות נפוצות</h2>
+    <div class="faq-list">
+
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          כמה זמן מראש צריך להזמין?
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-a">
+          מומלץ להזמין לפחות שבוע לפני האירוע, אבל לא תמיד — גם אנחנו מצליחים לסגור בהזמנה של יום-יומיים מראש, תלוי בזמינות. הכי טוב לשאול אותנו בוואטסאפ ולבדוק.
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          האם אתם מגיעים לכל הארץ?
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-a">
+          כן! מגיעים לרוב אזורי הארץ. תוספת נסיעה תחושב לפי מרחק. שלחו לנו את הכתובת ונאשר מייד.
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          האם ניתן לבקש צבעים ספציפיים?
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-a">
+          בהחלט! כל קשת מותאמת אישית לצבעים שלכם — לפי נושא האירוע, צבעי המותג, שמלה, עיצוב האולם, ומה שתרצו. שלחו לנו תמונת השראה ונתאים.
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          מה קורה אם בלון מתפוצץ?
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-a">
+          אנחנו עובדים עם בלונים איכותיים שמחזיקים 24–48 שעות. לאירועים ארוכים ניתן לבקש טיפול בהליום איכות גבוהה. אם יש בעיה — מגיבים מהר.
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          האם ניתן לקבל חשבונית?
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-a">
+          כן, אנחנו עסק מורשה ומוציאים חשבונית מס לכל רכישה. פשוט ציינו בהזמנה שאתם צריכים חשבונית עסקית.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ FINAL CTA ════════════════════ -->
+<section class="final-cta">
+  <div class="container">
+    <div class="urgency reveal">
+      ⚡ הסופ"ש הקרוב כמעט מלא — בדקו זמינות עכשיו
+    </div>
+    <h2 class="reveal">מוכנים להפוך את<br/>האירוע ל-wow?</h2>
+    <p class="reveal">שלחו לנו ב-WhatsApp ותוך שעה תקבלו הצעת מחיר מלאה, מפורטת, וללא התחייבות.</p>
+    <div class="cta-group">
+      <a href="https://wa.me/972508892684?text=היי%20Flawers%21%20אני%20רוצה%20לקבל%20הצעת%20מחיר%20לקשת%20בלונים%20לאירוע%20שלי.%20תאריך%3A%20_____%20סגנון%3A%20_____" class="btn-primary reveal" target="_blank">
+        💬 שלח/י לנו ב-WhatsApp עכשיו
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer>
+  <div class="container">
+    <p><strong>Flawers</strong> — קשתות בלונים לכל אירוע © 2026</p>
+    <p style="margin-top:8px;">עיצוב מקצועי · התקנה ופירוק כלולים · זמינות בכל הארץ</p>
+  </div>
+</footer>
+
+<!-- ════════════════════ FLOATING WHATSAPP ════════════════════ -->
+<a class="wa-float" href="https://wa.me/972508892684?text=היי%2C%20אני%20רוצה%20לשמוע%20פרטים%20על%20קשת%20בלונים!" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 32 32" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 2C8.27 2 2 8.27 2 16c0 2.45.65 4.8 1.87 6.85L2 30l7.35-1.84A14 14 0 0 0 16 30c7.73 0 14-6.27 14-14S23.73 2 16 2zm7.55 19.28l-.99.99c-.94.94-2.32 1.3-3.6.93-1.09-.31-2.48-.91-4.23-2.66-1.75-1.75-2.35-3.14-2.66-4.23-.37-1.28 0-2.66.93-3.6l.99-.99c.39-.39 1.02-.39 1.41 0l2.12 2.12c.39.39.39 1.02 0 1.41l-.83.83c-.21.21-.27.52-.14.78.34.7 1.05 1.85 2.28 3.07 1.22 1.22 2.37 1.94 3.07 2.28.26.13.57.07.78-.14l.83-.83c.39-.39 1.02-.39 1.41 0l2.12 2.12c.39.39.39 1.02 0 1.41z"/>
+  </svg>
+  <span class="wa-tooltip">💬 שלחו לנו הודעה!</span>
+</a>
+
+<!-- ════════════════════ SCRIPTS ════════════════════ -->
+<script>
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const navLinks  = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => revealObs.observe(el));
+
+  // Gallery filter
+  function filterGallery(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      const match = cat === 'all' || item.dataset.cat === cat;
+      item.style.display = match ? '' : 'none';
+    });
+  }
+
+  // FAQ accordion
+  function toggleFaq(el) {
+    const item = el.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+
+</body>
+</html>
