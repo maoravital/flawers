@@ -1095,7 +1095,20 @@
       transform: translateY(0);
     }
 
-    /* ─── Mobile ─── */
+    /* ─── Hamburger X state ─── */
+    .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    /* ─── Gallery overlay: always visible on touch ─── */
+    @media (hover: none) {
+      .cluster-main .overlay,
+      .cluster-thumb .overlay { opacity: 1; }
+      .cluster-main .overlay { background: linear-gradient(to top, rgba(26,26,46,0.65) 0%, transparent 55%); }
+      .cluster-thumb .overlay { background: linear-gradient(to top, rgba(26,26,46,0.65) 0%, transparent 50%); }
+    }
+
+    /* ─── Mobile 900px ─── */
     @media (max-width: 900px) {
       .nav-links { display: none; }
       .hamburger { display: flex; }
@@ -1105,24 +1118,68 @@
         position: fixed;
         inset: 0;
         background: #fff;
-        padding: 100px 32px 40px;
+        padding: 120px 32px 40px;
         gap: 28px;
         z-index: 999;
+        overflow-y: auto;
       }
       .nav-links.open a { font-size: 22px; }
-      .gallery-cluster { grid-template-columns: 1.2fr 1fr; }
+      .gallery-cluster { grid-template-columns: 1.3fr 1fr; }
       .pricing-grid { grid-template-columns: 1fr; }
       .pricing-card.featured { transform: scale(1); }
       .reviews-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: 1fr; }
       .process-steps::before { display: none; }
       .trust-divider { display: none; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
     }
+
+    /* ─── Mobile 580px ─── */
     @media (max-width: 580px) {
-      .gallery-cluster { grid-template-columns: 1fr 1fr; }
-      .cluster-main { aspect-ratio: 4/3; }
+      /* Topbar: prevent wrapping */
+      .topbar { font-size: 12px; padding: 8px 12px; }
+      /* Filter bar: horizontal scroll */
+      .filter-bar {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 6px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 8px;
+      }
+      .filter-bar::-webkit-scrollbar { display: none; }
+      .filter-btn { flex-shrink: 0; font-size: 13px; padding: 9px 16px; }
+      /* Gallery cluster: square main image */
+      .gallery-cluster { grid-template-columns: 1fr 1fr; gap: 6px; }
+      .cluster-main { aspect-ratio: 1 / 1; }
+      .cluster-thumbs { gap: 6px; }
+      .cluster-thumb { border-radius: 8px; }
+      /* Hero */
+      .hero-content { padding: 150px 0 60px; }
+      .hero h1 { font-size: clamp(30px, 8vw, 48px); }
+      .hero p { font-size: 16px; }
       .hero-ctas { flex-direction: column; }
       .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+      /* Services: 2 columns */
+      .services-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .service-card { padding: 20px 14px; }
+      .service-card .emoji { font-size: 32px; margin-bottom: 10px; }
+      .service-card h3 { font-size: 15px; }
+      .service-card p { font-size: 12px; }
+      /* Sections padding */
+      .services, .gallery, .process, .pricing, .testimonials, .faq { padding: 60px 0; }
+      .mid-cta { padding: 56px 0; }
+      .final-cta { padding: 70px 0; }
+      /* Process */
+      .process-step { padding: 0 8px; }
+      /* Pricing */
+      .pricing-card { padding: 28px 20px; }
+      /* Reviews */
+      .review-card { padding: 24px 20px; }
+      /* Section titles */
+      .section-title { font-size: clamp(22px, 6vw, 32px); }
+      .section-sub { font-size: 14px; }
     }
   </style>
 </head>
@@ -1236,7 +1293,7 @@
         <span class="icon">🏠</span>
         <div>
           <strong>הרצליה</strong>
-          <span>משלוח חינם לתושבי העיר*</span>
+          <span>משלוח חינם לתושבי העיר</span>
         </div>
       </div>
     </div>
@@ -1311,7 +1368,6 @@
       </div>
 
       <div class="gallery-cluster reveal" data-cat="business">
-        <div class="cluster-header"><div class="cluster-line"></div></div>
         <div class="cluster-main">
           <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.10.jpeg" alt="Arthur Murray" loading="lazy" />
           <div class="overlay"><span>Arthur Murray — כחול וזהב 🎓</span></div>
@@ -1325,7 +1381,6 @@
       </div>
 
       <div class="gallery-cluster reveal" data-cat="business">
-        <div class="cluster-header"><div class="cluster-line"></div></div>
         <div class="cluster-main">
           <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.13%20(2).jpeg" alt="Golden Touch" loading="lazy" />
           <div class="overlay"><span>Golden Touch — ורוד וזהב 💛</span></div>
@@ -1722,9 +1777,13 @@
   const navLinks  = document.getElementById('navLinks');
   hamburger.addEventListener('click', () => {
     navLinks.classList.toggle('open');
+    hamburger.classList.toggle('open');
   });
   navLinks.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => navLinks.classList.remove('open'));
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      hamburger.classList.remove('open');
+    });
   });
 
   // Scroll reveal
