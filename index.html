@@ -905,6 +905,91 @@
     }
     .wa-float:hover .wa-tooltip { opacity: 1; }
 
+    /* ─── Lightbox ─── */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(8,8,18,0.96);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+    #lightbox.open { opacity: 1; pointer-events: all; }
+    #lightbox-img {
+      max-width: 88vw;
+      max-height: 86vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+      transition: opacity 0.18s ease;
+      display: block;
+      user-select: none;
+    }
+    #lightbox-close {
+      position: absolute;
+      top: 18px; right: 20px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 20px;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+      line-height: 1;
+    }
+    #lightbox-close:hover { background: rgba(255,255,255,0.22); }
+    #lightbox-prev, #lightbox-next {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      font-size: 26px;
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.2s;
+      line-height: 1;
+    }
+    #lightbox-prev { left: 20px; }
+    #lightbox-next { right: 20px; }
+    #lightbox-prev:hover { background: rgba(255,255,255,0.22); transform: translateY(-50%) scale(1.08); }
+    #lightbox-next:hover { background: rgba(255,255,255,0.22); transform: translateY(-50%) scale(1.08); }
+    #lightbox-caption {
+      position: absolute;
+      bottom: 22px; left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.82);
+      font-size: 14px; font-weight: 600;
+      background: rgba(0,0,0,0.45);
+      padding: 8px 20px;
+      border-radius: 50px;
+      white-space: nowrap;
+      max-width: 80vw;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    #lightbox-counter {
+      position: absolute;
+      top: 22px; left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.5);
+      font-size: 13px; font-weight: 600;
+      background: rgba(0,0,0,0.3);
+      padding: 5px 14px; border-radius: 50px;
+    }
+    @media (max-width: 580px) {
+      #lightbox-prev { left: 8px; width: 40px; height: 40px; font-size: 20px; }
+      #lightbox-next { right: 8px; width: 40px; height: 40px; font-size: 20px; }
+    }
+
     /* ─── Cursor Glow ─── */
     #cursor-glow {
       position: fixed;
@@ -1545,6 +1630,16 @@
   <span class="wa-tooltip">💬 שלחו לנו הודעה!</span>
 </a>
 
+<!-- ════════════════════ LIGHTBOX ════════════════════ -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="תמונה מוגדלת">
+  <button id="lightbox-close" aria-label="סגור">✕</button>
+  <button id="lightbox-prev" aria-label="הקודם">&#8249;</button>
+  <img id="lightbox-img" src="" alt="" />
+  <button id="lightbox-next" aria-label="הבא">&#8250;</button>
+  <div id="lightbox-caption"></div>
+  <div id="lightbox-counter"></div>
+</div>
+
 <!-- ════════════════════ SCRIPTS ════════════════════ -->
 <script>
   // ── Cursor glow ──
@@ -1653,6 +1748,77 @@
       cluster.style.display = match ? '' : 'none';
     });
   }
+
+  // ── Lightbox ──
+  const lightbox   = document.getElementById('lightbox');
+  const lbImg      = document.getElementById('lightbox-img');
+  const lbCaption  = document.getElementById('lightbox-caption');
+  const lbCounter  = document.getElementById('lightbox-counter');
+  let lbImages = [];
+  let lbIndex  = 0;
+
+  function buildLbList() {
+    lbImages = [];
+    document.querySelectorAll('.cluster-main, .cluster-thumb').forEach(item => {
+      const img     = item.querySelector('img');
+      const caption = item.querySelector('.overlay span');
+      if (img) lbImages.push({ src: img.src, alt: img.alt, caption: caption ? caption.textContent.trim() : img.alt });
+    });
+  }
+
+  function lbShow(index) {
+    const item = lbImages[index];
+    lbImg.style.opacity = '0';
+    setTimeout(() => {
+      lbImg.src = item.src;
+      lbImg.alt = item.alt;
+      lbCaption.textContent = item.caption;
+      lbCounter.textContent = `${index + 1} / ${lbImages.length}`;
+      lbImg.style.opacity = '1';
+    }, 160);
+  }
+
+  function lbOpen(index) {
+    buildLbList();
+    lbIndex = index;
+    lbShow(lbIndex);
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function lbClose() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function lbPrev() { lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length; lbShow(lbIndex); }
+  function lbNext() { lbIndex = (lbIndex + 1) % lbImages.length;                   lbShow(lbIndex); }
+
+  // Attach click to every gallery image
+  document.querySelectorAll('.cluster-main, .cluster-thumb').forEach((item, i) => {
+    item.addEventListener('click', () => lbOpen(i));
+  });
+
+  document.getElementById('lightbox-close').addEventListener('click', lbClose);
+  document.getElementById('lightbox-prev').addEventListener('click', lbPrev);
+  document.getElementById('lightbox-next').addEventListener('click', lbNext);
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) lbClose(); });
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'ArrowLeft')  lbNext();
+    if (e.key === 'ArrowRight') lbPrev();
+    if (e.key === 'Escape')     lbClose();
+  });
+
+  // Touch swipe
+  let lbTouchX = 0;
+  lightbox.addEventListener('touchstart', e => { lbTouchX = e.touches[0].clientX; }, { passive: true });
+  lightbox.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - lbTouchX;
+    if (Math.abs(dx) > 48) { dx < 0 ? lbNext() : lbPrev(); }
+  });
 
   // FAQ accordion
   function toggleFaq(el) {
