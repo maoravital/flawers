@@ -131,7 +131,46 @@
     }
     .btn-gold:hover { background: #b8901e; }
     .btn-full { width: 100%; justify-content: center; font-size: 15px; padding: 13px 24px; }
-    .btn-hero-cta { font-size: 18px; padding: 17px 36px; box-shadow: 0 10px 40px rgba(232,56,122,0.45); }
+    .btn-hero-cta { font-size: 18px; padding: 17px 36px; box-shadow: 0 10px 40px rgba(232,56,122,0.45); position: relative; overflow: hidden; }
+    .btn-hero-cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.32) 50%, transparent 80%);
+      transform: translateX(-160%);
+      animation: btnShimmer 2.6s ease-in-out infinite;
+    }
+    @keyframes btnShimmer {
+      0%, 30% { transform: translateX(-160%); }
+      80%, 100% { transform: translateX(260%); }
+    }
+
+    /* ── Hero canvas (particles) ── */
+    .hero { position: relative; }
+    #hero-canvas {
+      position: absolute; inset: 0;
+      pointer-events: none; z-index: 1;
+    }
+    .hero-text-col { z-index: 2; }
+    .hero-photo-col { z-index: 2; }
+
+    /* ── Floating balloon ── */
+    #float-balloon {
+      position: fixed;
+      left: 10px; top: 50%;
+      transform: translateY(-50%);
+      z-index: 99; pointer-events: none;
+      display: none;
+      animation: balloonBob 3.6s ease-in-out infinite;
+    }
+    @media (max-width: 768px) { #float-balloon { display: block; } }
+    #float-balloon svg {
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35));
+      transition: fill 0.9s ease;
+    }
+    @keyframes balloonBob {
+      0%, 100% { transform: translateY(-50%) rotate(-7deg); }
+      50%       { transform: translateY(calc(-50% - 18px)) rotate(7deg); }
+    }
 
     /* ── SVG icon helper ── */
     .icon { flex-shrink: 0; display: inline-flex; }
@@ -1011,6 +1050,7 @@
      HERO
 ══════════════════════════════════════════ -->
 <section class="hero">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
   <div class="hero-text-col">
     <div class="hero-eyebrow">
       <span class="live-dot"></span>
@@ -1250,7 +1290,7 @@
     <p class="reveal">שלחו לנו ב-WhatsApp ותוך שעה תקבלו הצעת מחיר מלאה, ללא התחייבות.</p>
     <div class="cta-actions">
       <a href="https://wa.me/972508892684?text=%D7%94%D7%99%D7%99%20%D7%A8%D7%95%D7%A2%D7%99%0A%D7%90%D7%A0%D7%99%20%D7%9E%D7%AA%D7%A2%D7%A0%D7%99%D7%99%D7%A0%2F%D7%AA%20%D7%91%D7%A2%D7%99%D7%A6%D7%95%D7%91%20%D7%91%D7%9C%D7%95%D7%A0%D7%99%D7%9D"
-         class="btn btn-primary reveal" target="_blank" rel="noopener" style="font-size:17px;padding:16px 36px;">
+         class="btn btn-primary btn-hero-cta reveal" target="_blank" rel="noopener">
         <svg width="20" height="20" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true">
           <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-23.1-115-65-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
         </svg>
@@ -1286,6 +1326,16 @@
 
 
 
+<!-- floating balloon (mobile only) -->
+<div id="float-balloon" aria-hidden="true">
+  <svg width="30" height="52" viewBox="0 0 30 52" fill="#E8387A" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="15" cy="15" rx="13" ry="15"/>
+    <path d="M13 29 Q15 32 17 29 Q16 34 15 35 Q14 34 13 29Z"/>
+    <line x1="15" y1="35" x2="13" y2="52" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+    <ellipse cx="9" cy="9" rx="3" ry="4.5" fill="rgba(255,255,255,0.22)"/>
+  </svg>
+</div>
+
 <script>
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
@@ -1298,6 +1348,69 @@
     });
   }, { threshold: 0.10 });
   reveals.forEach(el => revealObs.observe(el));
+
+  // ── Particle canvas ──
+  (function() {
+    const canvas = document.getElementById('hero-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const COLORS = ['#E8387A','#C9A227','#ffffff','#a78bfa','#60a5fa','#f97316'];
+    let W, H, pts = [];
+
+    function resize() {
+      W = canvas.width  = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+
+    function Dot() { this.init(); }
+    Dot.prototype.init = function(fromBottom) {
+      this.x = Math.random() * W;
+      this.y = fromBottom ? H + 8 : Math.random() * H;
+      this.r = Math.random() * 2.2 + 0.4;
+      this.vy = -(Math.random() * 0.5 + 0.15);
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.alpha = Math.random() * 0.45 + 0.1;
+      this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    };
+    Dot.prototype.update = function() {
+      this.x += this.vx; this.y += this.vy;
+      if (this.y < -8) this.init(true);
+    };
+
+    const N = window.innerWidth < 600 ? 28 : 50;
+    for (let i = 0; i < N; i++) { pts.push(new Dot()); }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      pts.forEach(p => {
+        p.update();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.alpha;
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resize, { passive: true });
+    resize(); draw();
+  })();
+
+  // ── Floating balloon color on scroll ──
+  (function() {
+    const el = document.getElementById('float-balloon');
+    if (!el) return;
+    const svg = el.querySelector('svg');
+    const cols = ['#E8387A','#C9A227','#4ade80','#60a5fa','#a78bfa','#f97316'];
+    let ci = 0;
+    window.addEventListener('scroll', function() {
+      const max = document.body.scrollHeight - window.innerHeight;
+      const ni = max > 0 ? Math.min(Math.floor((window.scrollY / max) * cols.length), cols.length - 1) : 0;
+      if (ni !== ci) { ci = ni; svg.setAttribute('fill', cols[ci]); }
+    }, { passive: true });
+  })();
 </script>
 </body>
 </html>
