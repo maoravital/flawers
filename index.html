@@ -164,21 +164,6 @@
     }
     @media (max-width: 768px) { #float-balloon { display: block; } }
 
-    /* ── Touch halo ── */
-    .touch-halo {
-      position: fixed;
-      width: 80px; height: 80px;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%) scale(0);
-      animation: touchHalo 0.65s ease-out forwards;
-    }
-    @keyframes touchHalo {
-      0%   { transform: translate(-50%, -50%) scale(0);   opacity: 1; }
-      60%  { transform: translate(-50%, -50%) scale(3.5); opacity: 0.5; }
-      100% { transform: translate(-50%, -50%) scale(5);   opacity: 0; }
-    }
     #float-balloon svg {
       filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35));
       transition: fill 0.9s ease;
@@ -1414,20 +1399,67 @@
     resize(); draw();
   })();
 
-  // ── Touch halo (mobile) ──
+  // ── Balloon bloom (mobile touch) ──
   (function() {
     if (!('ontouchstart' in window)) return;
-    const cols = ['#E8387A','#C9A227','#4ade80','#60a5fa','#a78bfa','#f97316','#ffffff'];
+    const palette = ['#E8387A','#C9A227','#4ade80','#60a5fa','#a78bfa','#f97316','#ff6b6b','#ffd93d'];
     let ci = 0;
+    function makeBalloonSVG(color) {
+      const s = document.createElementNS('http://www.w3.org/2000/svg','svg');
+      s.setAttribute('width','22'); s.setAttribute('height','38');
+      s.setAttribute('viewBox','0 0 22 38');
+      s.style.cssText = 'position:fixed;pointer-events:none;z-index:99999;';
+      const body = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+      body.setAttribute('cx','11'); body.setAttribute('cy','11');
+      body.setAttribute('rx','10'); body.setAttribute('ry','11');
+      body.setAttribute('fill', color);
+      const knot = document.createElementNS('http://www.w3.org/2000/svg','path');
+      knot.setAttribute('d','M9 21 Q11 24 13 21 Q12 26 11 27 Q10 26 9 21Z');
+      knot.setAttribute('fill', color);
+      const string = document.createElementNS('http://www.w3.org/2000/svg','line');
+      string.setAttribute('x1','11'); string.setAttribute('y1','27');
+      string.setAttribute('x2','10'); string.setAttribute('y2','38');
+      string.setAttribute('stroke','rgba(255,255,255,0.45)');
+      string.setAttribute('stroke-width','1');
+      const shine = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+      shine.setAttribute('cx','7'); shine.setAttribute('cy','7');
+      shine.setAttribute('rx','2.5'); shine.setAttribute('ry','3.5');
+      shine.setAttribute('fill','rgba(255,255,255,0.25)');
+      s.appendChild(body); s.appendChild(knot); s.appendChild(string); s.appendChild(shine);
+      return s;
+    }
     document.addEventListener('touchstart', function(e) {
       const t = e.touches[0];
-      const el = document.createElement('div');
-      el.className = 'touch-halo';
-      const c = cols[ci];
-      ci = (ci + 1) % cols.length;
-      el.style.cssText = `left:${t.clientX}px;top:${t.clientY}px;background:radial-gradient(circle,${c} 0%,transparent 70%);box-shadow:0 0 24px ${c};`;
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 700);
+      const x = t.clientX, y = t.clientY;
+      const count = 6;
+      for (let i = 0; i < count; i++) {
+        const color = palette[ci % palette.length]; ci++;
+        const svg = makeBalloonSVG(color);
+        const angle = (360 / count) * i - 90;
+        const rad = angle * Math.PI / 180;
+        const dist = 52 + Math.random() * 24;
+        const tx = Math.cos(rad) * dist;
+        const ty = Math.sin(rad) * dist;
+        svg.style.left = (x - 11) + 'px';
+        svg.style.top  = (y - 19) + 'px';
+        svg.style.opacity = '0';
+        svg.style.transform = 'scale(0.3)';
+        svg.style.transition = 'none';
+        document.body.appendChild(svg);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            svg.style.transition = 'transform 0.18s cubic-bezier(0.22,1,0.36,1), opacity 0.18s ease';
+            svg.style.transform = 'scale(1)';
+            svg.style.opacity = '1';
+            setTimeout(() => {
+              svg.style.transition = 'transform 0.48s cubic-bezier(0.4,0,1,1), opacity 0.48s ease';
+              svg.style.transform = `translate(${tx}px,${ty}px) scale(0.5)`;
+              svg.style.opacity = '0';
+              setTimeout(() => svg.remove(), 500);
+            }, 160);
+          });
+        });
+      }
     }, { passive: true });
   })();
 
