@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
   <meta charset="UTF-8" />
@@ -953,39 +953,26 @@
       #lightbox-prev { left: 8px; width: 38px; height: 38px; font-size: 18px; }
       #lightbox-next { right: 8px; width: 38px; height: 38px; font-size: 18px; }
     }
+    /* ── Photo strip ── */
+    .photo-strip { padding: 80px 0; background: var(--surface); }
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .photo-grid img {
+      width: 100%; aspect-ratio: 4/3;
+      object-fit: cover; border-radius: var(--radius);
+      display: block; transition: transform var(--transition-slow);
+    }
+    .photo-grid img:hover { transform: scale(1.02); }
+    @media (max-width: 640px) {
+      .photo-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-
-<!-- ══════════════════════════════════════════
-     NAV
-══════════════════════════════════════════ -->
-<nav id="nav">
-  <div class="container nav-inner">
-    <a class="nav-logo" href="#">בלונים <span>בקליק</span></a>
-
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#gallery">גלריה</a></li>
-      <li><a href="#process">איך זה עובד</a></li>
-      <li><a href="#pricing">מחירים</a></li>
-      <li><a href="#faq">שאלות</a></li>
-      <li>
-        <a href="https://wa.me/972508892684?text=היי%2C%20אני%20רוצה%20לשמוע%20פרטים%20על%20קשת%20בלונים!"
-           class="nav-cta" target="_blank" rel="noopener">
-          <svg width="15" height="15" viewBox="0 0 448 512" fill="currentColor">
-            <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-23.1-115-65-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
-          </svg>
-          לפרטים
-        </a>
-      </li>
-    </ul>
-
-    <button class="hamburger" id="hamburger" aria-label="תפריט">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-
 
 <!-- ══════════════════════════════════════════
      HERO
@@ -1002,7 +989,7 @@
       ל<em>בלתי נשכח</em>
     </h1>
     <div class="hero-owner-tag">
-      <strong>מאור אביטל</strong>
+      <strong>רועי אביטל</strong>
       <span>· בעל העסק, בלונים בקליק</span>
     </div>
     <p class="hero-desc">
@@ -1017,7 +1004,7 @@
         </svg>
         שלחו לי הודעה
       </a>
-      <a href="#gallery" class="btn btn-outline-white">ראו עבודות</a>
+      <a href="#photos" class="btn btn-outline-white">ראו עבודות</a>
     </div>
     <p class="hero-trust">מענה תוך שעה &middot; ללא התחייבות &middot; משלוח חינם להרצליה</p>
   </div>
@@ -1025,7 +1012,7 @@
   <div class="hero-photo-col">
     <img
       src="owner.jpeg"
-      alt="מאור אביטל, בעל בלונים בקליק"
+      alt="רועי אביטל, בעל בלונים בקליק"
       loading="eager" fetchpriority="high" />
   </div>
 
@@ -1065,346 +1052,24 @@
 </div>
 
 
+
 <!-- ══════════════════════════════════════════
-     GALLERY
+     PHOTOS
 ══════════════════════════════════════════ -->
-<section class="gallery" id="gallery">
+<section class="photo-strip">
   <div class="container">
     <div class="section-header">
       <span class="section-tag reveal">עבודות</span>
-      <h2 class="section-title reveal">כל קשת — סיפור אחר</h2>
-      <p class="section-sub reveal">עיצוב ידני לפי הצבעים, הנושא והרגש של האירוע שלכם</p>
+      <h2 class="section-title reveal">כמה מהעבודות שלנו</h2>
     </div>
-
-    <div class="filter-bar reveal">
-      <button class="filter-btn active" onclick="filterGallery('all', this)">הכל</button>
-      <button class="filter-btn" onclick="filterGallery('birthday', this)">ימי הולדת</button>
-      <button class="filter-btn" onclick="filterGallery('barmitzvah', this)">בר / בת מצווה</button>
-      <button class="filter-btn" onclick="filterGallery('business', this)">עסקים</button>
-      <button class="filter-btn" onclick="filterGallery('event', this)">אירועים</button>
-      <button class="filter-btn" onclick="filterGallery('special', this)">מיוחדים</button>
-    </div>
-
-    <div class="gallery-clusters" id="galleryClusters">
-
-      <!-- עסקים -->
-      <div class="gallery-cluster reveal" data-cat="business">
-        <div class="cluster-label-row">
-          <span class="cluster-label">עסקים</span>
-          <div class="cluster-rule"></div>
-        </div>
-        <div class="cluster-main">
-          <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38%20(2).jpeg"
-               alt="פתיחה בקניון — פסטל" loading="eager" fetchpriority="high" />
-          <div class="cluster-overlay"><span>פתיחה בקניון — פסטל</span></div>
-        </div>
-        <div class="cluster-thumbs">
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39.jpeg" alt="OUTLET — אדום ולבן" loading="lazy" />
-            <div class="cluster-overlay"><span>OUTLET — אדום ולבן</span></div>
-          </div>
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(2).jpeg" alt="פתיחת סניף" loading="lazy" />
-            <div class="cluster-overlay"><span>פתיחת סניף</span></div>
-          </div>
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(3).jpeg" alt="בוטיק — ורוד וזהב" loading="lazy" />
-            <div class="cluster-overlay"><span>בוטיק — ורוד וזהב</span></div>
-          </div>
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(4).jpeg" alt="Royalty — זהב וכסף" loading="lazy" />
-            <div class="cluster-overlay"><span>Royalty — זהב וכסף</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gallery-cluster reveal" data-cat="business">
-        <div class="cluster-main">
-          <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.10.jpeg" alt="Arthur Murray — כחול וזהב" loading="lazy" />
-          <div class="cluster-overlay"><span>Arthur Murray — כחול וזהב</span></div>
-        </div>
-        <div class="cluster-thumbs">
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.10%20(1).jpeg" alt="Mody Kitchens" loading="lazy" />
-            <div class="cluster-overlay"><span>Mody Kitchens</span></div>
-          </div>
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.11.jpeg" alt="מסעדה — אדום ולבן" loading="lazy" />
-            <div class="cluster-overlay"><span>מסעדה — אדום ולבן</span></div>
-          </div>
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.11%20(2).jpeg" alt="אולם — כחול ולבן" loading="lazy" />
-            <div class="cluster-overlay"><span>אולם — כחול ולבן</span></div>
-          </div>
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.12%20(1).jpeg" alt="Sweetime — ורוד" loading="lazy" />
-            <div class="cluster-overlay"><span>Sweetime — ורוד</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gallery-cluster reveal" data-cat="business">
-        <div class="cluster-main">
-          <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.13%20(2).jpeg" alt="Golden Touch — ורוד וזהב" loading="lazy" />
-          <div class="cluster-overlay"><span>Golden Touch — ורוד וזהב</span></div>
-        </div>
-        <div class="cluster-thumbs">
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.15%20(1).jpeg" alt="Laser City" loading="lazy" />
-            <div class="cluster-overlay"><span>Laser City</span></div>
-          </div>
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.16.jpeg" alt="חנות — יין ושחור" loading="lazy" />
-            <div class="cluster-overlay"><span>חנות — יין ושחור</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- אירועים -->
-      <div class="gallery-cluster reveal" data-cat="event">
-        <div class="cluster-label-row">
-          <span class="cluster-label">אירועים</span>
-          <div class="cluster-rule"></div>
-        </div>
-        <div class="cluster-main">
-          <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38.jpeg" alt="חינה — לבן, כסף וזהב" loading="lazy" />
-          <div class="cluster-overlay"><span>חינה — לבן, כסף וזהב</span></div>
-        </div>
-        <div class="cluster-thumbs">
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.11%20(1).jpeg" alt="אמפיתאטרון" loading="lazy" />
-            <div class="cluster-overlay"><span>אמפיתאטרון</span></div>
-          </div>
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.14.jpeg" alt="בית ספר — רוז גולד" loading="lazy" />
-            <div class="cluster-overlay"><span>בית ספר — רוז גולד</span></div>
-          </div>
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.14%20(1).jpeg" alt="אירוע עירוני" loading="lazy" />
-            <div class="cluster-overlay"><span>אירוע עירוני</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- בר / בת מצווה -->
-      <div class="gallery-cluster reveal" data-cat="barmitzvah">
-        <div class="cluster-label-row">
-          <span class="cluster-label">בר / בת מצווה</span>
-          <div class="cluster-rule"></div>
-        </div>
-        <div class="cluster-main">
-          <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38%20(1).jpeg" alt="בר מצווה — שחור, לבן וזהב" loading="lazy" />
-          <div class="cluster-overlay"><span>בר מצווה — שחור, לבן וזהב</span></div>
-        </div>
-        <div class="cluster-thumbs">
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38%20(3).jpeg" alt="בת מצווה" loading="lazy" />
-            <div class="cluster-overlay"><span>בת מצווה</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ימי הולדת -->
-      <div class="gallery-cluster reveal" data-cat="birthday">
-        <div class="cluster-label-row">
-          <span class="cluster-label">ימי הולדת</span>
-          <div class="cluster-rule"></div>
-        </div>
-        <div class="cluster-main">
-          <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.39%20(1).jpeg" alt="אירוע בחצר — ורוד ולבנדר" loading="lazy" />
-          <div class="cluster-overlay"><span>אירוע בחצר — ורוד ולבנדר</span></div>
-        </div>
-        <div class="cluster-thumbs">
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.14%20(2).jpeg" alt="ורוד, לבן וכסף" loading="lazy" />
-            <div class="cluster-overlay"><span>ורוד, לבן וכסף</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- מיוחדים -->
-      <div class="gallery-cluster reveal" data-cat="special">
-        <div class="cluster-label-row">
-          <span class="cluster-label">מיוחדים</span>
-          <div class="cluster-rule"></div>
-        </div>
-        <div class="cluster-main">
-          <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.10%20(2).jpeg" alt="קשת להבות — שחור ואש" loading="lazy" />
-          <div class="cluster-overlay"><span>קשת להבות — שחור ואש</span></div>
-        </div>
-        <div class="cluster-thumbs">
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.12.jpeg" alt="קשת בענן" loading="lazy" />
-            <div class="cluster-overlay"><span>קשת בענן</span></div>
-          </div>
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.13.jpeg" alt="קשת אורגנית" loading="lazy" />
-            <div class="cluster-overlay"><span>קשת אורגנית</span></div>
-          </div>
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.13%20(1).jpeg" alt="פורים — קרנבל" loading="lazy" />
-            <div class="cluster-overlay"><span>פורים — קרנבל</span></div>
-          </div>
-          <div class="cluster-thumb">
-            <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.15.jpeg" alt="מנהרת בלונים" loading="lazy" />
-            <div class="cluster-overlay"><span>מנהרת בלונים</span></div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /gallery-clusters -->
-  </div>
-</section>
-
-
-<!-- ══════════════════════════════════════════
-     PROCESS
-══════════════════════════════════════════ -->
-<section class="process" id="process">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-tag reveal">תהליך</span>
-      <h2 class="section-title reveal">שלושה צעדים — וזה מוכן</h2>
-      <p class="section-sub reveal">מהרגע שפניתם ועד שהקשת עומדת באירוע</p>
-    </div>
-
-    <div class="process-grid">
-      <div class="process-connector" aria-hidden="true"></div>
-
-      <div class="process-step reveal">
-        <div class="step-circle">1</div>
-        <h3>תארו מה אתם רוצים</h3>
-        <p>שלחו לנו תאריך, מיקום, גודל ואיזה צבעים מדברים אליכם. אנחנו נעשה את השאר.</p>
-      </div>
-      <div class="process-step reveal">
-        <div class="step-circle">2</div>
-        <h3>קבלו הצעת מחיר</h3>
-        <p>תוך שעה שולחים הצעת מחיר מפורטת. ללא הפתעות, ללא תוספות נסתרות.</p>
-      </div>
-      <div class="process-step reveal">
-        <div class="step-circle">3</div>
-        <h3>אנחנו מגיעים, אתם נהנים</h3>
-        <p>מגיעים, מתקינים — ובסוף האירוע גם מפרקים. אתם לא צריכים לעשות כלום.</p>
-      </div>
+    <div class="photo-grid reveal">
+      <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38%20(2).jpeg" alt="קשת בלונים לאירוע עסקי" loading="lazy" />
+      <img src="WhatsApp%20Image%202026-05-13%20at%2022.01.38.jpeg" alt="קשת חינה זהב ולבן" loading="lazy" />
+      <img src="WhatsApp%20Image%202026-05-13%20at%2022.44.16.jpeg" alt="קשת ורוד ולבן" loading="lazy" />
     </div>
   </div>
 </section>
 
-
-<!-- ══════════════════════════════════════════
-     PRICING
-══════════════════════════════════════════ -->
-<section class="pricing" id="pricing">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-tag reveal">מחירים</span>
-      <h2 class="section-title reveal">שקיפות מלאה</h2>
-      <p class="section-sub reveal">כל מחיר כולל הגעה, התקנה ופירוק — ללא הפתעות</p>
-    </div>
-
-    <div class="pricing-grid">
-
-      <!-- Standard -->
-      <div class="pricing-card reveal">
-        <h3>קשת סטנדרטית</h3>
-        <div class="pricing-price"><sup>₪</sup>450</div>
-        <p class="pricing-desc">+ מע"מ · מושלם לאירוע ביתי או אולם קטן</p>
-        <ul class="pricing-features">
-          <li>
-            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            קשת עד 3 מטר
-          </li>
-          <li>
-            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            עד 3 צבעים
-          </li>
-          <li>
-            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            התקנה כלולה
-          </li>
-          <li>
-            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            פירוק כלול
-          </li>
-        </ul>
-        <a href="https://wa.me/972508892684?text=אני%20מעוניין%2Fת%20בחבילה%20הסטנדרטית"
-           class="btn btn-outline-pink btn-full" target="_blank" rel="noopener">
-          אני רוצה זאת
-        </a>
-      </div>
-
-      <!-- Premium -->
-      <div class="pricing-card featured reveal">
-        <div class="pricing-badge">הכי פופולרי</div>
-        <h3>קשת פרימיום</h3>
-        <div class="pricing-price" style="font-size:36px;">
-          <sup style="font-size:16px;">₪</sup>700<span style="font-size:20px;color:var(--gold);">–900</span>
-        </div>
-        <p class="pricing-desc">לאירועים שרוצים wow factor אמיתי</p>
-        <ul class="pricing-features">
-          <li>
-            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            קשת גדולה עד 5 מטר
-          </li>
-          <li>
-            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            עד 5 צבעים + כרום
-          </li>
-          <li>
-            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            בלוני מספרים / אותיות
-          </li>
-          <li>
-            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            התקנה + פירוק
-          </li>
-          <li>
-            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            עיצוב מותאם אישית
-          </li>
-        </ul>
-        <a href="https://wa.me/972508892684?text=אני%20מעוניין%2Fת%20בחבילת%20הפרימיום"
-           class="btn btn-gold btn-full" target="_blank" rel="noopener">
-          בואו נתחיל
-        </a>
-      </div>
-
-      <!-- Custom -->
-      <div class="pricing-card reveal">
-        <h3>התאמה אישית</h3>
-        <div class="pricing-price-label">מחיר לפי הזמנה</div>
-        <p class="pricing-desc">כל אירוע הוא עולם בפני עצמו — נבנה יחד</p>
-        <ul class="pricing-features">
-          <li>
-            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            קשת בכל גודל וצורה
-          </li>
-          <li>
-            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            עיצוב מלא לפי בקשה
-          </li>
-          <li>
-            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            שילוב עמודים ועיטורים
-          </li>
-          <li>
-            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            מתאים לפתיחות עסקים וארגונים
-          </li>
-        </ul>
-        <a href="https://wa.me/972508892684?text=אני%20רוצה%20לשמוע%20על%20קשת%20בהתאמה%20אישית"
-           class="btn btn-outline-pink btn-full" target="_blank" rel="noopener">
-          שלחו לנו פרטים
-        </a>
-      </div>
-
-    </div>
-    <p class="pricing-note reveal">
-      * כל המחירים לא כוללים מע"מ. מחיר סופי לפי גודל, מיקום וסגנון.<br/>
-      הצעת מחיר מדויקת תוך שעה. משלוח חינם לתושבי הרצליה.
-    </p>
-  </div>
-</section>
 
 
 <!-- ══════════════════════════════════════════
@@ -1485,82 +1150,6 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════
-     FAQ
-══════════════════════════════════════════ -->
-<section class="faq" id="faq">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-tag reveal">שאלות</span>
-      <h2 class="section-title reveal">שאלות נפוצות</h2>
-    </div>
-
-    <div class="faq-list">
-
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          כמה זמן מראש צריך להזמין?
-          <span class="faq-icon-wrap" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </span>
-        </div>
-        <div class="faq-a">
-          מומלץ לפחות שבוע לפני, אבל לעתים מצליחים לסגור גם תוך יום-יומיים — תלוי בזמינות. הכי טוב לשאול אותנו ב-WhatsApp ולבדוק.
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          האם אתם מגיעים לכל הארץ?
-          <span class="faq-icon-wrap" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </span>
-        </div>
-        <div class="faq-a">
-          כן, מגיעים לרוב אזורי הארץ. תוספת נסיעה מחושבת לפי מרחק. שלחו לנו כתובת ונאשר מייד.
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          האם ניתן לבקש צבעים ספציפיים?
-          <span class="faq-icon-wrap" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </span>
-        </div>
-        <div class="faq-a">
-          בהחלט. כל קשת מותאמת אישית — לפי נושא האירוע, צבעי המותג, שמלה, עיצוב האולם. שלחו תמונת השראה ונתאים.
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          כמה זמן הבלונים מחזיקים?
-          <span class="faq-icon-wrap" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </span>
-        </div>
-        <div class="faq-a">
-          הבלונים שלנו מחזיקים 24–48 שעות. לאירועים ארוכים ניתן לבקש הליום איכות גבוהה. יש בעיה — אנחנו מגיבים מהר.
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          האם ניתן לקבל חשבונית מס?
-          <span class="faq-icon-wrap" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </span>
-        </div>
-        <div class="faq-a">
-          כן, אנחנו עסק מורשה ומוציאים חשבונית מס לכל רכישה. פשוט ציינו בהזמנה שאתם צריכים חשבונית עסקית.
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
 
 <!-- ══════════════════════════════════════════
      FINAL CTA
@@ -1611,44 +1200,9 @@
 </a>
 
 
-<!-- ══════════════════════════════════════════
-     LIGHTBOX
-══════════════════════════════════════════ -->
-<div id="lightbox" role="dialog" aria-modal="true" aria-label="תמונה מוגדלת">
-  <button id="lightbox-close" class="lb-btn" aria-label="סגור">&#10005;</button>
-  <button id="lightbox-prev"  class="lb-btn" aria-label="הקודם">&#8249;</button>
-  <img id="lightbox-img" src="" alt="" />
-  <button id="lightbox-next"  class="lb-btn" aria-label="הבא">&#8250;</button>
-  <div id="lightbox-caption"></div>
-  <div id="lightbox-counter"></div>
-</div>
 
-
-<!-- ══════════════════════════════════════════
-     SCRIPTS
-══════════════════════════════════════════ -->
 <script>
-  // ── Nav scroll state ──
-  const nav = document.getElementById('nav');
-  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  // ── Hamburger ──
-  const hamburger = document.getElementById('hamburger');
-  const navLinks  = document.getElementById('navLinks');
-  hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-    hamburger.classList.toggle('open');
-  });
-  navLinks.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      hamburger.classList.remove('open');
-    });
-  });
-
-  // ── Scroll reveal ──
+  // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const revealObs = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
@@ -1659,88 +1213,6 @@
     });
   }, { threshold: 0.10 });
   reveals.forEach(el => revealObs.observe(el));
-
-  // ── Gallery filter ──
-  function filterGallery(cat, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.gallery-cluster').forEach(c => {
-      const match = cat === 'all' || c.dataset.cat === cat;
-      c.style.display = match ? '' : 'none';
-    });
-  }
-
-  // ── Lightbox ──
-  const lb        = document.getElementById('lightbox');
-  const lbImg     = document.getElementById('lightbox-img');
-  const lbCaption = document.getElementById('lightbox-caption');
-  const lbCounter = document.getElementById('lightbox-counter');
-  let lbList = [], lbIdx = 0;
-
-  function buildList() {
-    lbList = [];
-    document.querySelectorAll('.cluster-main, .cluster-thumb').forEach(el => {
-      const img = el.querySelector('img');
-      const cap = el.querySelector('.cluster-overlay span');
-      if (img) lbList.push({ src: img.src, alt: img.alt, caption: cap ? cap.textContent.trim() : img.alt });
-    });
-  }
-
-  function lbShow(i) {
-    const item = lbList[i];
-    lbImg.style.opacity = '0';
-    setTimeout(() => {
-      lbImg.src = item.src;
-      lbImg.alt = item.alt;
-      lbCaption.textContent = item.caption;
-      lbCounter.textContent = `${i + 1} / ${lbList.length}`;
-      lbImg.style.opacity = '1';
-    }, 160);
-  }
-  function lbOpen(i) {
-    buildList();
-    lbIdx = i;
-    lbShow(lbIdx);
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function lbClose() {
-    lb.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  const lbPrev = () => { lbIdx = (lbIdx - 1 + lbList.length) % lbList.length; lbShow(lbIdx); };
-  const lbNext = () => { lbIdx = (lbIdx + 1) % lbList.length; lbShow(lbIdx); };
-
-  document.querySelectorAll('.cluster-main, .cluster-thumb').forEach((el, i) => {
-    el.addEventListener('click', () => lbOpen(i));
-  });
-  document.getElementById('lightbox-close').addEventListener('click', lbClose);
-  document.getElementById('lightbox-prev').addEventListener('click', lbPrev);
-  document.getElementById('lightbox-next').addEventListener('click', lbNext);
-  lb.addEventListener('click', e => { if (e.target === lb) lbClose(); });
-  document.addEventListener('keydown', e => {
-    if (!lb.classList.contains('open')) return;
-    if (e.key === 'ArrowLeft')  lbNext();
-    if (e.key === 'ArrowRight') lbPrev();
-    if (e.key === 'Escape')     lbClose();
-  });
-
-  // Touch swipe
-  let touchX = 0;
-  lb.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
-  lb.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchX;
-    if (Math.abs(dx) > 48) dx < 0 ? lbNext() : lbPrev();
-  });
-
-  // ── FAQ accordion ──
-  function toggleFaq(el) {
-    const item = el.closest('.faq-item');
-    const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-    if (!isOpen) item.classList.add('open');
-  }
 </script>
-
 </body>
 </html>
