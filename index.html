@@ -820,6 +820,40 @@
     /* ───────────────────────────────────────────
        FLOATING WHATSAPP
     ─────────────────────────────────────────── */
+    .ig-float {
+      position: fixed; bottom: 152px; left: 24px;
+      z-index: 9999;
+      width: 54px; height: 54px;
+      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 24px rgba(214,36,159,0.38);
+      transition: transform var(--transition), box-shadow var(--transition);
+      text-decoration: none;
+      animation: waPop 0.45s 1.3s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    .ig-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 32px rgba(214,36,159,0.52);
+    }
+    .ig-float svg { width: 27px; height: 27px; }
+    .ig-tooltip {
+      position: absolute; left: 66px;
+      background: #fff; color: #111827;
+      font-size: 12px; font-weight: 700;
+      padding: 7px 12px; border-radius: 7px;
+      white-space: nowrap;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+      pointer-events: none; opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .ig-tooltip::after {
+      content: ''; position: absolute;
+      top: 50%; right: 100%; transform: translateY(-50%);
+      border: 5px solid transparent; border-right-color: #fff;
+    }
+    .ig-float:hover .ig-tooltip { opacity: 1; }
+
     .fb-float {
       position: fixed; bottom: 88px; left: 24px;
       z-index: 9999;
@@ -1383,6 +1417,17 @@
   <span class="wa-tooltip">שלחו לנו הודעה</span>
 </a>
 
+
+
+<!-- Instagram floating button -->
+<a class="ig-float"
+   href="https://www.instagram.com/explore/locations/1021244059/prhy-hrzlyh/"
+   target="_blank" rel="noopener" aria-label="עמוד האינסטגרם שלנו">
+  <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+  </svg>
+  <span class="ig-tooltip">עמוד האינסטגרם שלנו</span>
+</a>
 
 
 <!-- Facebook floating button -->
