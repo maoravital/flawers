@@ -454,10 +454,38 @@
       align-items: center;
       margin-bottom: 20px;
     }
-    .hero-trust {
-      font-size: 13px;
-      color: rgba(255,255,255,0.38);
-      font-weight: 500;
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+    .hero-badge-trust,
+    .hero-badge-award,
+    .hero-badge-price {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+    .hero-badge-trust {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.65);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .hero-badge-award {
+      background: rgba(201,162,39,0.15);
+      color: #C9A227;
+      border: 1px solid rgba(201,162,39,0.35);
+    }
+    .hero-badge-award svg { color: #C9A227; flex-shrink: 0; }
+    .hero-badge-price {
+      background: rgba(232,56,122,0.12);
+      color: #E8387A;
+      border: 1px solid rgba(232,56,122,0.3);
     }
     /* scroll indicator */
     .scroll-cue {
@@ -1312,7 +1340,17 @@
         שדרגו את האירוע עכשיו
       </a>
     </div>
-    <p class="hero-trust">מענה תוך שעה &middot; משלוח חינם להרצליה</p>
+    <div class="hero-badges">
+      <div class="hero-badge-trust">מענה תוך שעה</div>
+      <div class="hero-badge-award">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+          <circle cx="12" cy="8" r="6"/>
+          <path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/>
+        </svg>
+        10 שנות ניסיון מוכח
+      </div>
+      <div class="hero-badge-price">החל מ-450 ש"ח + מע"מ</div>
+    </div>
   </div>
 
   <div class="hero-photo-col">
@@ -1413,11 +1451,6 @@
       <div class="stat">
         <strong>5.0</strong>
         <span>דירוג ממוצע</span>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat">
-        <strong>משלוח חינם</strong>
-        <span>לתושבי הרצליה</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
