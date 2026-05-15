@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:;" />
   <title>בלונים בקליק | קשתות בלונים לכל אירוע</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1223,6 +1225,8 @@
     }
     .work-card--featured { grid-column: span 2; }
     .work-card--featured img { aspect-ratio: 16/9; }
+    .work-card:last-child { grid-column: 1 / -1; }
+    .work-card:last-child img { aspect-ratio: 21/9; }
     .work-card:hover img { transform: scale(1.09); filter: brightness(1.08); }
     .work-overlay {
       position: absolute; inset: 0;
@@ -1856,6 +1860,104 @@
       setTimeout(function() { ready = true; maybeExit(); }, wait);
     });
   })();
+</script>
+
+<!-- ══════════════════════════════════════════
+     ANALYTICS TRACKER
+══════════════════════════════════════════ -->
+<script>
+(function () {
+  var DB_KEY  = 'bbk_analytics';
+  var SID_KEY = 'bbk_sid';
+
+  var sid = sessionStorage.getItem(SID_KEY);
+  if (!sid) {
+    sid = 'S' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    sessionStorage.setItem(SID_KEY, sid);
+  }
+
+  function save(ev, props) {
+    var record = {
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 4),
+      ev: ev,
+      props: props || {},
+      sid: sid,
+      ts: Date.now(),
+      ref: document.referrer || 'direct'
+    };
+    try {
+      var raw = localStorage.getItem(DB_KEY);
+      var db  = raw ? JSON.parse(raw) : { ev: [], s: {} };
+      if (!db.s[sid]) db.s[sid] = { t0: record.ts, ref: record.ref };
+      db.s[sid].tLast = record.ts;
+      db.ev.push(record);
+      if (db.ev.length > 8000) db.ev = db.ev.slice(-8000);
+      localStorage.setItem(DB_KEY, JSON.stringify(db));
+    } catch (_) {}
+    var wh = localStorage.getItem('bbk_webhook');
+    if (wh) {
+      try {
+        var whUrl = new URL(wh);
+        if (whUrl.protocol === 'https:') {
+          fetch(wh, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(record),
+            keepalive: true
+          });
+        }
+      } catch (_) {}
+    }
+  }
+
+  save('pageview');
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href]');
+    if (!a) return;
+    var h = a.href;
+    var lbl;
+    if (h.indexOf('wa.me') !== -1) {
+      if (a.closest('.hero'))        lbl = 'wa_hero';
+      else if (a.closest('.cta-section')) lbl = 'wa_cta';
+      else if (a.classList.contains('wa-float')) lbl = 'wa_float';
+      else lbl = 'wa_other';
+    } else if (a.classList.contains('ig-float') || h.indexOf('instagram.com') !== -1) {
+      lbl = 'ig_float';
+    } else if (a.classList.contains('fb-float') || h.indexOf('facebook.com') !== -1) {
+      lbl = 'fb_float';
+    }
+    if (lbl) save('click', { lbl: lbl });
+  });
+
+  var hit = {};
+  window.addEventListener('scroll', function () {
+    var pct = Math.round(
+      (window.scrollY / Math.max(1, document.body.scrollHeight - window.innerHeight)) * 100
+    );
+    [25, 50, 75, 100].forEach(function (m) {
+      if (!hit['d' + m] && pct >= m) {
+        hit['d' + m] = true;
+        save('scroll', { pct: m });
+      }
+    });
+    [['#photos', 'gallery'], ['.reviews', 'reviews'], ['.cta-section', 'cta']].forEach(function (pair) {
+      var k = 'sec_' + pair[1];
+      if (!hit[k]) {
+        var el = document.querySelector(pair[0]);
+        if (el && el.getBoundingClientRect().top < window.innerHeight * 0.85) {
+          hit[k] = true;
+          save('section_view', { name: pair[1] });
+        }
+      }
+    });
+  }, { passive: true });
+
+  var t0 = Date.now();
+  window.addEventListener('beforeunload', function () {
+    save('exit', { sec: Math.round((Date.now() - t0) / 1000) });
+  });
+})();
 </script>
 </body>
 </html>
