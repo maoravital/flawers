@@ -820,6 +820,39 @@
     /* ───────────────────────────────────────────
        FLOATING WHATSAPP
     ─────────────────────────────────────────── */
+    .fb-float {
+      position: fixed; bottom: 88px; left: 24px;
+      z-index: 9999;
+      width: 54px; height: 54px;
+      background: #1877F2; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 24px rgba(24,119,242,0.38);
+      transition: transform var(--transition), box-shadow var(--transition);
+      text-decoration: none;
+      animation: waPop 0.45s 1.15s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    .fb-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 32px rgba(24,119,242,0.50);
+    }
+    .fb-float svg { width: 26px; height: 26px; }
+    .fb-tooltip {
+      position: absolute; left: 66px;
+      background: #fff; color: #111827;
+      font-size: 12px; font-weight: 700;
+      padding: 7px 12px; border-radius: 7px;
+      white-space: nowrap;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+      pointer-events: none; opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .fb-tooltip::after {
+      content: ''; position: absolute;
+      top: 50%; right: 100%; transform: translateY(-50%);
+      border: 5px solid transparent; border-right-color: #fff;
+    }
+    .fb-float:hover .fb-tooltip { opacity: 1; }
+
     .wa-float {
       position: fixed; bottom: 24px; left: 24px;
       z-index: 9999;
@@ -1350,6 +1383,17 @@
   <span class="wa-tooltip">שלחו לנו הודעה</span>
 </a>
 
+
+
+<!-- Facebook floating button -->
+<a class="fb-float"
+   href="https://www.facebook.com/profile.php?id=100063621037881&locale=he_IL#"
+   target="_blank" rel="noopener" aria-label="עמוד הפייסבוק שלנו">
+  <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.413c0-3.025 1.791-4.697 4.532-4.697 1.313 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+  </svg>
+  <span class="fb-tooltip">עמוד הפייסבוק שלנו</span>
+</a>
 
 
 <!-- floating balloon (mobile only) -->
